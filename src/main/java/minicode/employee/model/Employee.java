@@ -1,4 +1,4 @@
-package minicode.employee.rest;
+package minicode.employee.model;
 
 import java.util.Date;
 
@@ -39,6 +39,10 @@ public class Employee{
 
 	public String getFirstName(){
 		return this.firstName;
+	}
+
+	public String getMiddleInitial(){
+		return this.middleInitial;
 	}
 
 }
