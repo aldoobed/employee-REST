@@ -3,7 +3,6 @@ package minicode.employees;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.slf4j.Logger;
@@ -25,15 +24,16 @@ public class EmployeeController {
     @RequestMapping(value="/employees",method=RequestMethod.GET)
     public List<Employee> getAll() {
         logger.info("getting ACTIVE employees");
-        return repository.findAll().stream()
-            .filter(employee -> Status.ACTIVE.toString().equals(employee.getStatus()))
-            .collect(Collectors.toList());
+        return repository.findAll()
+        		.stream()
+        		.filter(employee -> Status.ACTIVE.toString().equals(employee.getStatus()))
+        		.collect(Collectors.toList());
 	}
 
     @RequestMapping(value="/employees/{id}",method=RequestMethod.GET)
     public Optional<Employee> getEmployee(@PathVariable Long id) {
         logger.info("getting employee with id:"+id);
-        return repository.findById(id);
+        return repository.findById(id).filter(employee -> Status.ACTIVE.toString().equals(employee.getStatus()));
     }
     
     @RequestMapping(value="/employees",method=RequestMethod.POST)
