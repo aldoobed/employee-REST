@@ -1,4 +1,4 @@
-package minicode.employee.rest;
+package minicode.employees;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

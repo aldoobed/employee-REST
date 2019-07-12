@@ -1,4 +1,4 @@
-package minicode.employee.model;
+package minicode.employees;
 
 import java.util.Date;
 
