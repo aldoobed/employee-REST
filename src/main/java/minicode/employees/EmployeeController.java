@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 public class EmployeeController {
@@ -23,31 +24,43 @@ public class EmployeeController {
 
     @RequestMapping(value="/employees",method=RequestMethod.GET)
     public List<Employee> getAll() {
-        logger.info("getting all employees");
-        return repository.findAll();
-		//return new Employee[] {new Employee(1L, "Aldo", "get"),new Employee(2L, "Aldo", "all")};
-    }
+        logger.info("getting ACTIVE employees");
+        return repository.findAll().stream()
+            .filter(employee -> Status.ACTIVE.toString().equals(employee.getStatus()))
+            .collect(Collectors.toList());
+	}
 
     @RequestMapping(value="/employees/{id}",method=RequestMethod.GET)
     public Optional<Employee> getEmployee(@PathVariable Long id) {
         logger.info("getting employee with id:"+id);
-        //return new Employee[] {new Employee(1L, "Aldo", "Perez")};
         return repository.findById(id);
     }
     
     @RequestMapping(value="/employees",method=RequestMethod.POST)
     public Employee craeateEmployee(@RequestBody Employee newEmployee) {
         logger.info("creating new employee");
+        newEmployee.setStatus(Status.ACTIVE.toString());
         return repository.save(newEmployee);
     }
     
-    @RequestMapping(value="/employee",method=RequestMethod.PUT)
-    public Employee updateEmployee(@RequestParam(value="id") String id) {
-    	return new Employee(1L, "Aldo", "PUT");
+    @RequestMapping(value="/employees",method=RequestMethod.PUT)
+    public Optional<Employee> updateEmployee(@RequestBody Employee employeeToUpdate) {
+    	logger.info("updating employee with id:"+employeeToUpdate.getId());
+        return repository.findById(employeeToUpdate.getId()).map(employee -> {
+            employee.setFirstName(employeeToUpdate.getFirstName());
+            employee.setMiddleInitial(employeeToUpdate.getMiddleInitial());
+            employee.setDateOfBirth(employeeToUpdate.getDateOfBirth());
+            employee.setDateOfEmployment(employeeToUpdate.getDateOfEmployment());
+            return repository.save(employee);
+        });
     }
     
-    @RequestMapping(value="/employee",method=RequestMethod.DELETE)
-    public Employee deactivateEmployee(@RequestParam(value="id") String id) {
-    	return new Employee(1L, "Aldo", "DELETE");
+    @RequestMapping(value="/employees/{id}",method=RequestMethod.DELETE)
+    public Optional<Employee> deactivateEmployee(@PathVariable Long id) {
+        logger.info("deactivating employee with id:"+id);
+    	return repository.findById(id).map(employee -> {
+            employee.setStatus(Status.INACTIVE.toString());
+            return repository.save(employee);
+        });
     }
 }
