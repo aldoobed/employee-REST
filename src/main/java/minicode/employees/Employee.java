@@ -1,10 +1,18 @@
 package minicode.employees;
 
 import java.util.Date;
+import lombok.Data;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Data
+@Entity
 public class Employee{
 	
-	private int id;
+	//private int id;
+	private @GeneratedValue @Id Long id;
 	private String firstName;
 	private String middleInitial;
 	private String lastName;
@@ -12,7 +20,9 @@ public class Employee{
 	private Date dateOfEmployment;
 	private String status;
 
-	public Employee(int id, String firstName, String middleInitial, String lastName, 
+	public Employee(){}
+
+	public Employee(Long id, String firstName, String middleInitial, String lastName, 
 		Date dateOfBirth, Date dateOfEmployment, String status){
 
 		this.id = id;
@@ -25,7 +35,7 @@ public class Employee{
 
 	}
 
-		public Employee(int id, String firstName, String middleInitial){
+		public Employee(Long id, String firstName, String middleInitial){
 
 		this.id = id;
 		this.firstName = firstName;
@@ -33,16 +43,16 @@ public class Employee{
 
 	}
 
-	public int getId(){
-		return this.id;
-	}
-
-	public String getFirstName(){
-		return this.firstName;
-	}
-
-	public String getMiddleInitial(){
-		return this.middleInitial;
-	}
+//	public int getId(){
+//		return this.id;
+//	}
+//
+//	public String getFirstName(){
+//		return this.firstName;
+//	}
+//
+//	public String getMiddleInitial(){
+//		return this.middleInitial;
+//	}
 
 }
