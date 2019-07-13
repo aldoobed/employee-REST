@@ -31,9 +31,13 @@ public class EmployeeController {
 	}
 
     @RequestMapping(value="/employees/{id}",method=RequestMethod.GET)
-    public Optional<Employee> getEmployee(@PathVariable Long id) {
+    public Employee getEmployee(@PathVariable Long id) {
+
         logger.info("getting employee with id:"+id);
-        return repository.findById(id).filter(employee -> Status.ACTIVE.toString().equals(employee.getStatus()));
+        return repository.findById(id)
+            .filter(employee -> Status.ACTIVE.toString().equals(employee.getStatus()))
+            .orElseThrow(()-> new EmployeeNotFoundException(id));
+
     }
     
     @RequestMapping(value="/employees",method=RequestMethod.POST)
@@ -45,22 +49,29 @@ public class EmployeeController {
     
     @RequestMapping(value="/employees",method=RequestMethod.PUT)
     public Optional<Employee> updateEmployee(@RequestBody Employee employeeToUpdate) {
+
     	logger.info("updating employee with id:"+employeeToUpdate.getId());
-        return repository.findById(employeeToUpdate.getId()).map(employee -> {
-            employee.setFirstName(employeeToUpdate.getFirstName());
-            employee.setMiddleInitial(employeeToUpdate.getMiddleInitial());
-            employee.setDateOfBirth(employeeToUpdate.getDateOfBirth());
-            employee.setDateOfEmployment(employeeToUpdate.getDateOfEmployment());
-            return repository.save(employee);
-        });
+
+        return repository.findById(employeeToUpdate.getId())
+            .map(employee -> {
+                employee.setFirstName(employeeToUpdate.getFirstName());
+                employee.setMiddleInitial(employeeToUpdate.getMiddleInitial());
+                employee.setDateOfBirth(employeeToUpdate.getDateOfBirth());
+                employee.setDateOfEmployment(employeeToUpdate.getDateOfEmployment());
+                return repository.save(employee);
+            });
+
     }
     
     @RequestMapping(value="/employees/{id}",method=RequestMethod.DELETE)
-    public Optional<Employee> deactivateEmployee(@PathVariable Long id) {
+    public Employee deactivateEmployee(@PathVariable Long id) {
+
         logger.info("deactivating employee with id:"+id);
+
     	return repository.findById(id).map(employee -> {
             employee.setStatus(Status.INACTIVE.toString());
             return repository.save(employee);
-        });
+        }).orElseThrow(()-> new EmployeeNotFoundException(id));
+
     }
 }
