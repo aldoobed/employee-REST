@@ -6,18 +6,26 @@ import lombok.Data;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Column;
 
 @Data
 @Entity
 public class Employee{
 	
-	//private int id;
-	private @GeneratedValue @Id Long id;
+	@GeneratedValue
+	@Id
+	private Long id;
+	@Column(name="FIRST_NAME")
 	private String firstName;
+	@Column(name="MIDL_INIT")
 	private String middleInitial;
+	@Column(name="LAST_NAME")
 	private String lastName;
+	@Column(name="BIRTH_DATE")
 	private Date dateOfBirth;
+	@Column(name="EMPL_DATE")
 	private Date dateOfEmployment;
+	@Column(name="STATUS")
 	private String status;
 
 	public Employee(){}
