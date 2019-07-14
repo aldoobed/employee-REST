@@ -32,9 +32,6 @@ public class MyBasicAuthenticationEntryPoint extends BasicAuthenticationEntryPoi
         ObjectMapper mapper = new ObjectMapper();
         EmployeeApiResponse error = new EmployeeApiResponse(authEx,HttpStatus.UNAUTHORIZED );
 
-        //error.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        //eror.setMessage(authEx.getMessage());
-
         String jsonObject = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(error);
         writer.append(jsonObject);
         writer.close();

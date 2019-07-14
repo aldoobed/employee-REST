@@ -2,7 +2,12 @@ package minicode.employees;
 
 public class EmployeeNotFoundException extends RuntimeException {
 
-  EmployeeNotFoundException(Long id) {
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+EmployeeNotFoundException(Long id) {
     super("Could not find employee " + id);
   }
 }
