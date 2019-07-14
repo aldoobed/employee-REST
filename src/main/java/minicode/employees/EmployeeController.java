@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import org.springframework.http.HttpStatus;
 
 @RestController
 public class EmployeeController {
@@ -31,12 +32,24 @@ public class EmployeeController {
 	}
 
     @RequestMapping(value="/employees/{id}",method=RequestMethod.GET)
-    public Employee getEmployee(@PathVariable Long id) {
+    public EmployeeApiResponse getEmployee(@PathVariable Long id) {
 
         logger.info("getting employee with id:"+id);
-        return repository.findById(id)
+
+        EmployeeApiResponse response;
+
+        try{
+            Employee foundEmployee = repository.findById(id)
             .filter(employee -> Status.ACTIVE.toString().equals(employee.getStatus()))
-            .orElseThrow(()-> new EmployeeNotFoundException(id));
+            .orElseThrow(()-> new EmployeeNotFoundException(id));    
+
+            response = new EmployeeApiResponse(foundEmployee, HttpStatus.OK);
+
+        }catch(EmployeeNotFoundException ex){
+            response = new EmployeeApiResponse(ex,HttpStatus.NOT_FOUND);
+        }
+        
+        return response;
 
     }
     
