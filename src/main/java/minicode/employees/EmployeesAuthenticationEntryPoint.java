@@ -2,6 +2,7 @@ package minicode.employees;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -13,12 +14,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
-import org.springframework.http.HttpStatus;
 
 @Component
-public class MyBasicAuthenticationEntryPoint extends BasicAuthenticationEntryPoint {
+public class EmployeesAuthenticationEntryPoint extends BasicAuthenticationEntryPoint {
  
-	private final Logger logger = LoggerFactory.getLogger(MyBasicAuthenticationEntryPoint.class);
+	private final Logger logger = LoggerFactory.getLogger(EmployeesAuthenticationEntryPoint.class);
 	
     @Override
     public void commence
@@ -27,14 +27,16 @@ public class MyBasicAuthenticationEntryPoint extends BasicAuthenticationEntryPoi
 
         response.setContentType("application/json");
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
         
         PrintWriter writer = response.getWriter();
         ObjectMapper mapper = new ObjectMapper();
-        EmployeeApiResponse error = new EmployeeApiResponse(authEx,HttpStatus.UNAUTHORIZED );
+        BadCredentialsResponse error = new BadCredentialsResponse(authEx);
 
         String jsonObject = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(error);
         writer.append(jsonObject);
         writer.close();
+
     }
 
     @Override

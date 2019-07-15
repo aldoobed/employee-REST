@@ -1,11 +1,12 @@
 package minicode.employees;
 
-public class EmployeeNotFoundException extends RuntimeException {
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.http.HttpStatus;
 
-  /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+@ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "Employee not found")
+public class EmployeeNotFoundException extends Exception {
+
+private static final long serialVersionUID = 1L;
 
 EmployeeNotFoundException(Long id) {
     super("Could not find employee " + id);

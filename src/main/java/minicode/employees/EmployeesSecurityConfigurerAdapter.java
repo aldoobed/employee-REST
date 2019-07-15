@@ -18,7 +18,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 public class EmployeesSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
 
   @Autowired
-  private MyBasicAuthenticationEntryPoint authenticationEntryPoint;
+  private EmployeesAuthenticationEntryPoint authenticationEntryPoint;
   
   @Override
   protected void configure(HttpSecurity http) throws Exception {

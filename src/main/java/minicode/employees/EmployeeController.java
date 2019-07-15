@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 public class EmployeeController {
@@ -32,25 +33,19 @@ public class EmployeeController {
 	}
 
     @RequestMapping(value="/employees/{id}",method=RequestMethod.GET)
-    public EmployeeApiResponse getEmployee(@PathVariable Long id) {
+    public Employee getEmployee(@PathVariable Long id) {
 
         logger.info("getting employee with id:"+id);
 
-        EmployeeApiResponse response;
-
         try{
-            Employee foundEmployee = repository.findById(id)
+            return repository.findById(id)
             .filter(employee -> Status.ACTIVE.toString().equals(employee.getStatus()))
             .orElseThrow(()-> new EmployeeNotFoundException(id));    
 
-            response = new EmployeeApiResponse(foundEmployee, HttpStatus.OK);
-
         }catch(EmployeeNotFoundException ex){
-            response = new EmployeeApiResponse(ex,HttpStatus.NOT_FOUND);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee Not Found");
         }
-        
-        return response;
-
+       
     }
     
     @RequestMapping(value="/employees",method=RequestMethod.POST)
@@ -60,7 +55,7 @@ public class EmployeeController {
         return repository.save(newEmployee);
     }
     
-    @RequestMapping(value="/employees",method=RequestMethod.PUT)
+    @RequestMapping(value="/employees",method=RequestMethod.PATCH)
     public Optional<Employee> updateEmployee(@RequestBody Employee employeeToUpdate) {
 
     	logger.info("updating employee with id:"+employeeToUpdate.getId());
@@ -80,11 +75,13 @@ public class EmployeeController {
     public Employee deactivateEmployee(@PathVariable Long id) {
 
         logger.info("deactivating employee with id:"+id);
-
+      try{  
     	return repository.findById(id).map(employee -> {
             employee.setStatus(Status.INACTIVE.toString());
             return repository.save(employee);
         }).orElseThrow(()-> new EmployeeNotFoundException(id));
-
+      }catch(EmployeeNotFoundException ex){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee Not Found");
+        }
     }
 }
