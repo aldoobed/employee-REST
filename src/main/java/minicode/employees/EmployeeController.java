@@ -26,9 +26,10 @@ public class EmployeeController {
     @RequestMapping(value="/employees",method=RequestMethod.GET)
     public List<Employee> getAll() {
         logger.info("getting ACTIVE employees");
+                
         return repository.findAll()
-        		.stream()
-        		.filter(employee -> Status.ACTIVE.toString().equals(employee.getStatus()))
+        		.stream()	// Java 8: The Stream API. It helps to support functional style coding like filter, map and reduce. 
+        		.filter(employee -> Status.ACTIVE.toString().equals(employee.getStatus())) //Java 8: Lambda expressions, it let us usa an anonymous function as a method argument
         		.collect(Collectors.toList());
 	}
 
@@ -40,7 +41,7 @@ public class EmployeeController {
         try{
             return repository.findById(id)
             .filter(employee -> Status.ACTIVE.toString().equals(employee.getStatus()))
-            .orElseThrow(()-> new EmployeeNotFoundException(id));    
+            .orElseThrow(()-> new EmployeeNotFoundException(id));    // Java 8: Optional<T>, this functionallity is a container that may or may not a non null, this class implements de method orElseThrow, which in case of null value will throw an exception of th type that we supplied
 
         }catch(EmployeeNotFoundException ex){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee Not Found");
@@ -61,7 +62,7 @@ public class EmployeeController {
     	logger.info("updating employee with id:"+employeeToUpdate.getId());
 
         return repository.findById(employeeToUpdate.getId())
-            .map(employee -> {
+            .map(employee -> {  //Java 8: Optional<T> map method, it applies the provides function, in this case for updating the employee, and resturns an Optional<T> of the result
                 employee.setFirstName(employeeToUpdate.getFirstName());
                 employee.setMiddleInitial(employeeToUpdate.getMiddleInitial());
                 employee.setDateOfBirth(employeeToUpdate.getDateOfBirth());

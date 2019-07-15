@@ -17,7 +17,7 @@ public class BadCredentialsResponse {
 
 	public BadCredentialsResponse (AuthenticationException ex){
 		this.status=HttpStatus.UNAUTHORIZED.value();
-		this.timestamp= Instant.now().toString();
+		this.timestamp= Instant.now().toString(); //Java 8: java.time package, in this case the Instant object is use for getting the current instant timestamp from system clock 
 		this.error=HttpStatus.UNAUTHORIZED.getReasonPhrase();
 		this.message=ex.getMessage();
 	}
