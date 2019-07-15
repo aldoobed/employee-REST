@@ -56,7 +56,7 @@ public class EmployeeController {
         return repository.save(newEmployee);
     }
     
-    @RequestMapping(value="/employees",method=RequestMethod.PATCH)
+    @RequestMapping(value="/employees",method=RequestMethod.PUT)
     public Optional<Employee> updateEmployee(@RequestBody Employee employeeToUpdate) {
 
     	logger.info("updating employee with id:"+employeeToUpdate.getId());
