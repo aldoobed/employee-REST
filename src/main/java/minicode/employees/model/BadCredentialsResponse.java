@@ -1,4 +1,4 @@
-package minicode.employees;
+package minicode.employees.model;
 
 import java.time.Instant;
 

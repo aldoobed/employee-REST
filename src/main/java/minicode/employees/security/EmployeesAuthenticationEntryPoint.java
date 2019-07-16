@@ -1,4 +1,4 @@
-package minicode.employees;
+package minicode.employees.security;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,6 +14,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
+
+import minicode.employees.model.BadCredentialsResponse;
 
 @Component
 public class EmployeesAuthenticationEntryPoint extends BasicAuthenticationEntryPoint {

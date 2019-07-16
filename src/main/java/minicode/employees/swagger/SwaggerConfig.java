@@ -1,4 +1,4 @@
-package minicode.employees;
+package minicode.employees.swagger;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

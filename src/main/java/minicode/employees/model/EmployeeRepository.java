@@ -1,4 +1,4 @@
-package minicode.employees;
+package minicode.employees.model;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

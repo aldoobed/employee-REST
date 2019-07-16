@@ -1,4 +1,4 @@
-package minicode.employees;
+package minicode.employees.constants;
 
 public enum Status{
 	ACTIVE,
