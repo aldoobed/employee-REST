@@ -10,5 +10,5 @@ For running this api:
     http://localhost:8080/swagger-ui.html
 5. REST API methods wil be shown an could be run from there.
 
-For stoping the api.
+For stopping the api.
 1. From command line or terminal hits ctrl+c.
