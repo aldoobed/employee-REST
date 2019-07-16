@@ -8,7 +8,7 @@ For running this api:
     ./mvnw spring-boot:run
 4. Open a web browser and enter url:
     http://localhost:8080/swagger-ui.html
-5. REST API methods wil be shown an could be run from there.
+5. REST API methods will be shown and could be run from there.
 
 For stopping the api.
 1. From command line or terminal hits ctrl+c.
