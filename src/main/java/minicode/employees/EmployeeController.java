@@ -76,19 +76,19 @@ public class EmployeeController {
     @RequestMapping(value="/employees/{id}",method=RequestMethod.PUT)
     public Optional<Employee> updateEmployee(
     		@ApiParam("Employee info to update")
-    		@RequestBody @Valid EmployeeInput employeeToUpdate,
-    		@ApiParam("Employee Id number to deactivate")
+    		@RequestBody @Valid UpdateEmployeeInput employeeToUpdate,
+    		@ApiParam("Employee Id number to update")
    	     	@Valid @Positive @PathVariable Long id) {
 
     	logger.info("updating employee with id:"+id);
 
         return repository.findById(id)
-            .map(employee -> {  //Java 8: Optional<T> map method, it applies the provides function, in this case for updating the employee, and resturns an Optional<T> of the result
-                employee.setFirstName(employeeToUpdate.getFirstName());
-                employee.setMiddleInitial(employeeToUpdate.getMiddleInitial());
-                employee.setLastName(employeeToUpdate.getLastName());
-                employee.setDateOfBirth(employeeToUpdate.getDateOfBirth());
-                employee.setDateOfEmployment(employeeToUpdate.getDateOfEmployment());
+            .map(employee -> {  //Java 8: Optional<T> map method, it applies the provides function, in this case for updating the employee, and returns an Optional<T> of the result
+                if(employeeToUpdate.getFirstName()!=null)employee.setFirstName(employeeToUpdate.getFirstName());
+                if(employeeToUpdate.getMiddleInitial()!=null)employee.setMiddleInitial(employeeToUpdate.getMiddleInitial());
+                if(employeeToUpdate.getLastName()!=null)employee.setLastName(employeeToUpdate.getLastName());
+                if(employeeToUpdate.getDateOfBirth()!=null)employee.setDateOfBirth(employeeToUpdate.getDateOfBirth());
+                if(employeeToUpdate.getDateOfEmployment()!=null)employee.setDateOfEmployment(employeeToUpdate.getDateOfEmployment());
                 return repository.save(employee);
             });
 
