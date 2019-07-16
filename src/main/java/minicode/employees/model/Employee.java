@@ -5,7 +5,9 @@ import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,9 +17,10 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@SequenceGenerator(name="seq", initialValue=6)
 public class Employee{
 	
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq")
 	@Id
 	private Long id;
 	@Column(name="FIRST_NAME")
